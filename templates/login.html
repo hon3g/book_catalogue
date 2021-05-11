@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <form method="POST">
+        <label for="username">Username:</label>
+        <input type="text" name="username" autocomplete="off">
+
+        <label for="password">Password:</label>
+        <input type="text" name="password" autocomplete="off">
+
+        <input type="submit" value="Log In">
+    </form>
+    <br>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="alert alert-danger" role="alert">
+                  <p>{{ msg }}</p>
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+{% endblock %}

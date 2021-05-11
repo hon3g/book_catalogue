@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block logout %}
+    <form action="{{ url_for('logout') }}">
+        <button type="submit" class="btn btn-light">Log Out</button>
+    </form>
+{% endblock %}
+
+{% block content %}
+
+    <div class="jumbotron">
+        <form method="POST">
+            <label for="ISBN">ISBN:</label>
+            <input type="text" name="ISBN">
+            <input type="submit" value="Search">
+        </form>
+        <br>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for msg in messages %}
+                    <div class="alert alert-warning" role="alert">
+                      <p>{{ msg }}</p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+    </div>
+
+    {% if book_info %}
+        <img src="{{ book_info[0] }}" alt="Small Thumbnail">
+        <p><strong>Title:</strong> {{ book_info[1] }}</p>
+        <p><strong>Author(s):</strong> {{ book_info[2].split('/') }}</p>
+        <p><strong>Page Count:</strong> {{ book_info[3] }}</p>
+        <p><strong>Rating:</strong> {{ book_info[4] }}</p>
+        <form action="{{ url_for('save_book') }}">
+            <button type="submit" class="btn btn-outline-success">Save</button>
+        </form>
+    {% endif %}
+    <br>
+
+    <table class="table">
+      <thead>
+        <tr>
+            <th scope="col">Thumbnail</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author(s)</th>
+             <th scope="col">Page Count</th>
+             <th scope="col">Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+
+      {% for book in books %}
+
+        <tr>
+            <th scope="row"><img src="{{ book['image'] }}" alt=""></th>
+            <td>{{ book['title'] }}</td>
+            <td>{{ book['authors'].split('/') }}</td>
+            <td>{{ book['page_count'] }}</td>
+            <td>{{ book['rating'] }}</td>
+        <td>
+            <form action="{{ url_for('delete_book') }}" method="POST">
+                <input type="hidden" name="d_book" value="{{ book['title'] }}">
+                <button type="submit" class="btn btn-outline-danger">Delete</button>
+            </form>
+        </td>
+        </tr>
+
+      {% endfor %}
+
+      </tbody>
+    </table>
+
+{% endblock %}
