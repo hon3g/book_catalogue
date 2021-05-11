@@ -1,7 +1,5 @@
-Book Catalogue
-
 ```
 python app.py
 ```
-Username: user
+Username: user <br />
 Password: pass
